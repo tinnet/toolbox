@@ -1,0 +1,6 @@
+Simple script to extract all email addresses from an imap mailbox.
+One of my earliest python scripts ;)
+
+Intended to be piped to "sort -u" afterwards, usage:
+
+python imapdumper.py | sort -u
