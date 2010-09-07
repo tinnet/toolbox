@@ -1,0 +1,5 @@
+Parses o2 (germany) CSV files with the billing data to show stats like
+
+total minutes used
+total minutes in homezone used
+total sms send
