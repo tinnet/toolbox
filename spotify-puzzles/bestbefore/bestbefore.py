@@ -6,23 +6,17 @@ MINIMUM_DATE = datetime.date(2000,01,01)
 MAXIMUM_DATE = datetime.date(2999,12,31)
 
 def parseDate(dateString):
-    parts = dateString.split("/")
-    if len(parts) != 3:
-        raise Exception("wrong amount of parts")
-    try:
-        parts = map(int, parts)
-    except ValueError:
-        raise Exception("non integer part")
+    parts = map(int, dateString.split("/", 3))
 
     possible_dates = []
     for permutation in itertools.permutations(parts):
         try:
+            if permutation[0] < MINIMUM_DATE.year:
+                permutation = (permutation[0]+MINIMUM_DATE.year, permutation[1],permutation[2])
+
             date = datetime.date(*permutation)
 
-            if date < MINIMUM_DATE:
-                date = date.replace(year=date.year+MINIMUM_DATE.year)
-
-            if date > MAXIMUM_DATE:
+            if date < MINIMUM_DATE or date > MAXIMUM_DATE:
                 continue
 
             possible_dates.append(date)
