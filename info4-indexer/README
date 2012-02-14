@@ -1,0 +1,5 @@
+codename selas 
+
+* "fast" fulltext indexer without any kind of stemming or flexion
+* written ~2004 for extra credit in an university course
+* while most people wrote this in java, i thought C++ would be faster...
