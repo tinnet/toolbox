@@ -9,7 +9,7 @@ import sys
 # 1 ≤ t ≤ 100: the number of tickets each winner is allowed to buy.
 # 1 ≤ p ≤ m: the number of people in your group.
 def parseInput(line):
-    return map(float, line.split(" ", 4))
+    return map(int, line.split(" ", 4))
 
 # from http://en.wikipedia.org/wiki/Binomial_coefficient#Binomial_coefficient_in_programming_languages
 def binomialCoefficient(n, k):
@@ -25,19 +25,23 @@ def binomialCoefficient(n, k):
 
 
 def calculateChance(m,n,t,p):
-    wins_needed = math.ceil(p/t)
-    chance_to_win = (n/m)*p
-    print wins_needed, chance_to_win
-    print binomialCoefficient(20,4)
-    return chance_to_win**wins_needed
+    wins_needed = int(math.ceil(p/t))
+
+    # chance is exactly_enough+one_more+two_more...all
+    chance = 0
+    for i in range(wins_needed, p):
+        chance += binomialCoefficient(p,i) / float(binomialCoefficient(m,n))
+    print wins_needed,chance
+    return chance
 
 def main():
     for line in sys.stdin:
         try:
             m,n,t,p = parseInput(line.strip())
             print "{0:.10f}".format(calculateChance(m,n,t,p))
-        except Exception:
+        except Exception as e:
             print "invalid input line: %s" % line.strip()
+            print e
 
     return 0
 
