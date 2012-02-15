@@ -3,19 +3,28 @@
 
 import sys
 
+class TeamCountError(Exception):
+    pass
+
+class EmployeeId(Exception):
+    pass
+
 FRIEND = 1009
 
 def parseInput():
-    team_count = int(sys.stdin.readline())
+    team_count = int(sys.stdin.readline().strip())
+    if team_count < 1 or team_count > 10000:
+        raise TeamCountError("between 1 and 10000 teams are allowed")
+
     teams = []
     for i in range(team_count):
         i,j = sys.stdin.readline().strip().split(" ", 2)
         i,j = int(i), int(j)
 
         if i < 1000 or i > 1999:
-            raise Exception("invalid Stockholm id")
+            raise EmployeeId("invalid Stockholm id")
         if j < 2000 or j > 2999:
-            raise Exception("invalid London id")
+            raise EmployeeId("invalid London id")
 
         teams.append((i, j))
     return teams
@@ -39,10 +48,14 @@ def makeCombinations(teams, results):
     return makeCombinations(teams[1:], new_results)
 
 def findShortestSets(combinations, max_length):
+    if max_length == 1:
+        return combinations
+
     for i in range(max_length):
         results = [x for x in combinations if len(x) == i]
         if len(results) > 0:
             return results
+
 
 
 def findSetWithId(sets, id):
@@ -51,12 +64,14 @@ def findSetWithId(sets, id):
             return x
 
     return sets[0]
+
 def main():
     teams = parseInput()
 
     combinations = makeCombinations(teams, [set()])
 
     shortestSets = findShortestSets(combinations, len(teams))
+
     winnerSet = findSetWithId(shortestSets, FRIEND)
 
     print len(winnerSet)
