@@ -25,15 +25,15 @@ def binomialCoefficient(n, k):
 
 
 def calculateChance(m,n,t,p):
-    wins_needed = int(math.ceil(p/t))
+    wins_needed = int(math.ceil(float(p)/float(t)))
     if wins_needed > p:
         return 0.0
 
     # chance is exactly_enough+one_more+two_more...all
     chance = 0.0
-    for x in range(wins_needed, p):
+    for x in range(wins_needed, p+1):
         # see http://de.wikipedia.org/wiki/Hypergeometrische_Verteilung#Ausf.C3.BChrliches_Rechenbeispiel_f.C3.BCr_die_Kugeln
-        chance += float(binomialCoefficient(p,x)) * float(binomialCoefficient(m - p, n - x)) / float(binomialCoefficient(m,p))
+        chance += (float(binomialCoefficient(p,x)) * float(binomialCoefficient(m - p, n - x))) / float(binomialCoefficient(m,n))
     return chance
 
 def main():
@@ -43,7 +43,6 @@ def main():
             print "{0:.10f}".format(calculateChance(m,n,t,p))
         except Exception as e:
             print "invalid input line: %s" % line.strip()
-            print e
 
     return 0
 
