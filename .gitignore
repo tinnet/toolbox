@@ -2,3 +2,4 @@
 *.o
 info4-indexer/src/main
 .idea
+*.pyc

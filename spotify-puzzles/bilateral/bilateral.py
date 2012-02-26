@@ -51,7 +51,7 @@ def findShortestSets(combinations, max_length):
     if max_length == 1:
         return combinations
 
-    for i in range(max_length):
+    for i in xrange(max_length):
         results = [x for x in combinations if len(x) == i]
         if len(results) > 0:
             return results
